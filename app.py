@@ -198,7 +198,7 @@ def getDateStrFromParameter(req):
     
     day = unicode(day)
 	
-	yy, mm, dd = day.split("-")
+    yy, mm, dd = day.split("-")
         
     day = dd + " " + getMonthName(int(mm)) + " " + str(yy)    
              
