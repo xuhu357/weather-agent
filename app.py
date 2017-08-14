@@ -190,6 +190,8 @@ def getDateStrFromParameter(req):
     }
     
     day = parameters.get("sys_dt_day")
+    date_word = parameters.get("sys_dt_day.original")
+	
     if day is None:
         now = datetime.datetime.now()
         now_tuple = now.timetuple()
@@ -197,7 +199,7 @@ def getDateStrFromParameter(req):
         return day
     
     day = unicode(day)
-	
+    
     yy, mm, dd = day.split("-")
         
     day = dd + " " + getMonthName(int(mm)) + " " + str(yy)    
