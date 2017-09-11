@@ -45,6 +45,7 @@ def processRequest(req):
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
 	
     if req.get("result").get("actionIncomplete") == True:
+	result = req.get("result")
 	parameters = result.get("parameters")
 	city = parameters.get("sys_lc_city")
 	wcity = parameters.get("sys_lc_wcity")
