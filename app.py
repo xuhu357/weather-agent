@@ -43,50 +43,27 @@ def processRequest(req):
     if req.get("result").get("action") != "weather":
         return {}
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
-	
-    if req.get("result").get("actionIncomplete") == True:
-	parameters = result.get("parameters")
-	city = parameters.get("sys_lc_city")
-	wcity = parameters.get("sys_lc_wcity")
-	day = parameters.get("sys_lc_city")
-	speech = ""
-		
-	if city is None and wcity is None:
-		speech = "어디 날씨를 알려드릴까요?"		
-		return {
-			"speech": speech,
-			"displayText": speech,
-			"source": "apiai-weather-webhook-sample-customized"
-		}
-	if day is None:
-		speech = "언제 날씨를 알려드릴까요?"		
-		return {
-			"speech": speech,
-			"displayText": speech,
-			"source": "apiai-weather-webhook-sample-customized"
-		}
-			
-    else:	
-	yql_query = makeYqlQuery(req)
-	if yql_query is None:
-		return {}
-	yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-	result = urlopen(yql_url).read()    
-	data = json.loads(result)
+    
+    yql_query = makeYqlQuery(req)
+    if yql_query is None:
+        return {}
+    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    result = urlopen(yql_url).read()    
+    data = json.loads(result)
+    
+    now = datetime.datetime.now()
+    now_tuple = now.timetuple()
 
-	now = datetime.datetime.now()
-	now_tuple = now.timetuple()
+    now_str = ((now_tuple.tm_mday < 10) and (str(0) + str(now_tuple.tm_mday)) or (str(now_tuple.tm_mday)))+ " " + getMonthName(now_tuple.tm_mon) + " " + str(now_tuple.tm_year)
+    
+    day_str = getDateStrFromParameter(req)
+    
+    if now_str == day_str:
+        res = makeWebhookResult(data)
+    else:
+        res = makeWebhookForecastResult(data)   
 
-	now_str = ((now_tuple.tm_mday < 10) and (str(0) + str(now_tuple.tm_mday)) or (str(now_tuple.tm_mday)))+ " " + getMonthName(now_tuple.tm_mon) + " " + str(now_tuple.tm_year)
-
-	day_str = getDateStrFromParameter(req)
-
-	if now_str == day_str:
-		res = makeWebhookResult(data)
-	else:
-		res = makeWebhookForecastResult(data)   
-
-    	return res
+    return res
 
 
 def makeYqlQuery(req):
