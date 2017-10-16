@@ -52,14 +52,15 @@ def processRequest(req):
 	day = parameters.get("sys_lc_city")
 	speech = ""
 		
-	if city is None and wcity is None:
-		speech = "어디 날씨를 알려드릴까요?"		
-		return {
-			"speech": speech,
-			"displayText": speech,
-			"source": "apiai-weather-webhook-sample-customized"
-		}
-	if day is None:
+	if city is None or not city:
+		if wcity is None or not wcity:
+			speech = "어디 날씨를 알려드릴까요?"		
+			return {
+				"speech": speech,
+				"displayText": speech,
+				"source": "apiai-weather-webhook-sample-customized"
+			}
+	if day is None or not day:
 		speech = "언제 날씨를 알려드릴까요?"		
 		return {
 			"speech": speech,
