@@ -49,7 +49,7 @@ def processRequest(req):
 	parameters = result.get("parameters")
 	city = parameters.get("sys_lc_city")
 	wcity = parameters.get("sys_lc_wcity")
-	day = parameters.get("sys_lc_city")
+	day = parameters.get("sys_dt_day")
 	speech = ""
 		
 	if city is None and wcity is None:
