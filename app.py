@@ -217,7 +217,7 @@ def getDateStrFromParameter(req):
     day = parameters.get("sys_dt_day")
     date_word = day
 	
-    if day is None or day:
+    if day is None or not day:
         now = datetime.datetime.now()
         now_tuple = now.timetuple()
         day = ((now_tuple.tm_mday < 10) and (str(0) + str(now_tuple.tm_mday)) or (str(now_tuple.tm_mday))) + " " + getMonthName(now_tuple.tm_mon) + " " + str(now_tuple.tm_year)
