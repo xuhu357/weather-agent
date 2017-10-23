@@ -95,9 +95,9 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("sys_lc_city")
-    if city is None:
+    if city is None or not city:
         city = parameters.get("sys_lc_wcity")
-        if(city is None):
+        if(city is None or not city):
             return None
     global global_city
     global_city = city
